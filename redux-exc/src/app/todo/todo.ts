@@ -16,12 +16,12 @@ export const todoSlice = createSlice({
     },
     reducers: {
         addTodo: (state, action: PayloadAction<string>) => {
+            // let i = state.list.length-1;
             state.list.push({
-                index: state.list.length+1,
+                index: state.list.length,
                 desc: action.payload,
                 completed: false
             });
-            // console.log()
             state.input = "";
         },
         removeTodo: (state, action: PayloadAction<number>) => {

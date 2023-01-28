@@ -34,7 +34,6 @@ function App() {
                         className={`ms-2 btn btn-success${
                             todo.input === "" ? " disabled" : ""
                         }`}
-                        disabled
                         onClick={() => {
                             dispatch(addTodo(todo.input));
                         }}
@@ -42,22 +41,23 @@ function App() {
                         Add
                     </button>
                 </div>
-                <div className="m-2">
+                <div className="m-2 d-flex flex-column">
                     <div className="fw-bold">Tasks:</div>
                     {todo.list.map((t) => (
-                        <div className="m-2 p-1 bg-info d-inline-flex">
+                        <div className="m-2 p-2 bg-secondary rounded d-inline-flex justify-content-between">
                             <button
-                                className={`m-1 badge${
-                                    t.completed ? " bg-success" : " bg-danger"
+                                className={`m-1 btn ${
+                                    t.completed ? " btn-success" : " btn-danger"
                                 }`}
                                 onClick={() => {
-                                    t.completed = !t.completed;
-                                    dispatch(updateTodo(t));
+                                    let arg = {...t};
+                                    arg.completed  = !arg.completed;
+                                    dispatch(updateTodo(arg));
                                 }}
-                            ></button>
+                            > </button>
                             <span className="m-1 fw-bold">{t.desc}</span>
                             <button
-                                className="btn btn-danger"
+                                className="btn btn-danger align-self-end"
                                 onClick={() => {
                                     dispatch(removeTodo(t.index));
                                 }}
