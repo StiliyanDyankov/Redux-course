@@ -6,28 +6,42 @@ export interface todoTask {
     completed: boolean;
 }
 
-const todoList: todoTask[] = [];
+const list: todoTask[] = [];
 
 export const todoSlice = createSlice({
     name: "todoList",
-    initialState: todoList,
+    initialState: {
+        list: list,
+        input: "",
+    },
     reducers: {
-        addTodo: (state, action: PayloadAction<todoTask>) => {
-            state.push(action.payload);
+        addTodo: (state, action: PayloadAction<string>) => {
+            state.list.push({
+                index: state.list.length+1,
+                desc: action.payload,
+                completed: false
+            });
+            // console.log()
+            state.input = "";
         },
         removeTodo: (state, action: PayloadAction<number>) => {
-            state = state.filter((t) => t.index !== action.payload);
+            state.list = state.list.filter(
+                (t) => t.index !== action.payload
+            );
         },
         updateTodo: (state, action: PayloadAction<todoTask>) => {
-            state[action.payload.index] = action.payload;
+            state.list[action.payload.index] = action.payload;
         },
         deleteTodo: (state, action: PayloadAction<number>) => {
-            state = state.slice(action.payload, 0);
+            state.list.splice(action.payload, 1);
+        },
+        input: (state, action: PayloadAction<string>) => {
+            state.input = action.payload;
         },
     },
 });
 
-export const { addTodo, removeTodo, updateTodo, deleteTodo } =
+export const { addTodo, removeTodo, updateTodo, deleteTodo, input } =
     todoSlice.actions;
 
 export default todoSlice.reducer;
