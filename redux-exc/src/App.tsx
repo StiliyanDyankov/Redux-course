@@ -1,10 +1,9 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { useAppSelector, useAppDispatch } from "./app/hooks";
 import {
     addTodo,
     removeTodo,
     updateTodo,
-    deleteTodo,
     input,
 } from "./app/todo/todo";
 
@@ -15,7 +14,6 @@ function App() {
 
     return (
         <React.Fragment>
-            <h1>Hello</h1>
             <div className="p-2 bg-light">
                 <div className="m-2">
                     <span className="me-2">Number of tasks:</span>
@@ -43,18 +41,23 @@ function App() {
                 </div>
                 <div className="m-2 d-flex flex-column">
                     <div className="fw-bold">Tasks:</div>
-                    {todo.list.map((t) => (
-                        <div className="m-2 p-2 bg-secondary rounded d-inline-flex justify-content-between">
+                    {todo.list.map((t, i) => (
+                        <div
+                            key={i}
+                            className="m-2 p-2 bg-secondary rounded d-inline-flex justify-content-between"
+                        >
                             <button
                                 className={`m-1 btn ${
                                     t.completed ? " btn-success" : " btn-danger"
                                 }`}
                                 onClick={() => {
-                                    let arg = {...t};
-                                    arg.completed  = !arg.completed;
+                                    let arg = { ...t };
+                                    arg.completed = !arg.completed;
                                     dispatch(updateTodo(arg));
                                 }}
-                            > </button>
+                            >
+                                {" "}
+                            </button>
                             <span className="m-1 fw-bold">{t.desc}</span>
                             <button
                                 className="btn btn-danger align-self-end"

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface todoTask {
-    index: number;
+    index: string;
     desc: string;
     completed: boolean;
 }
@@ -16,24 +16,22 @@ export const todoSlice = createSlice({
     },
     reducers: {
         addTodo: (state, action: PayloadAction<string>) => {
-            // let i = state.list.length-1;
+            const i = Date.now().toString();
             state.list.push({
-                index: state.list.length,
+                index: i,
                 desc: action.payload,
-                completed: false
+                completed: false,
             });
             state.input = "";
         },
-        removeTodo: (state, action: PayloadAction<number>) => {
-            state.list = state.list.filter(
-                (t) => t.index !== action.payload
-            );
+        removeTodo: (state, action: PayloadAction<string>) => {
+            state.list = state.list.filter((t) => t.index !== action.payload);
         },
         updateTodo: (state, action: PayloadAction<todoTask>) => {
-            state.list[action.payload.index] = action.payload;
-        },
-        deleteTodo: (state, action: PayloadAction<number>) => {
-            state.list.splice(action.payload, 1);
+            let i = state.list.findIndex(
+                (t) => t.index === action.payload.index
+            );
+            state.list[i] = action.payload;
         },
         input: (state, action: PayloadAction<string>) => {
             state.input = action.payload;
@@ -41,7 +39,6 @@ export const todoSlice = createSlice({
     },
 });
 
-export const { addTodo, removeTodo, updateTodo, deleteTodo, input } =
-    todoSlice.actions;
+export const { addTodo, removeTodo, updateTodo, input } = todoSlice.actions;
 
 export default todoSlice.reducer;
